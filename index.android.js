@@ -1,10 +1,47 @@
-var { requireNativeComponent, View } = require('react-native');
+'use strict'
 
-var iface = {
+let React = require('react-native')
+
+let {
+  requireNativeComponent,
+  View,
+  Component,
+} = React
+
+
+let AndroidMapViewInterface = {
   name: 'AndroidMapView',
   propTypes: {
     ...View.propTypes,
   },
-};
+}
 
-module.exports = requireNativeComponent('AndroidMapView', iface);
+let AndroidMapView = requireNativeComponent('AndroidMapView', AndroidMapViewInterface)
+
+
+class MapView extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount () {
+  }
+
+  componentWillUnmount () {
+  }
+
+  componentWillReceiveProps (nextProps) {
+  }
+
+  render () {
+    return (
+      <AndroidMapView
+        { ...this.props }
+      />
+    )
+  }
+
+}
+
+module.exports = MapView
