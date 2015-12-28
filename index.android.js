@@ -26,7 +26,7 @@ class MapView extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log("MapView.componentWillReceiveProps :", nextProps)
+    console.log("MapView.componentWillReceiveProps(): nextProps = ", nextProps)
   }
 
   render () {
@@ -42,6 +42,11 @@ class MapView extends React.Component {
 
 MapView.propTypes = {
   ...React.View.propTypes,
+  region: React.PropTypes.shape({
+    latitude: React.PropTypes.number.isRequired,
+    longitude: React.PropTypes.number.isRequired,
+    zoom: React.PropTypes.number,
+  }),
   onRegionChange: React.PropTypes.func,
 }
 
