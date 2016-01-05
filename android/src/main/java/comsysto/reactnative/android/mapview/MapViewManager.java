@@ -16,7 +16,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MapViewManager extends ViewGroupManager<ReactMapView> {
@@ -57,10 +56,6 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
                         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(mReactMapView.getId(), "topChange", event);
                     }
                 });
-                // Add a marker in Sydney and move the camera
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
             }
         });
 
