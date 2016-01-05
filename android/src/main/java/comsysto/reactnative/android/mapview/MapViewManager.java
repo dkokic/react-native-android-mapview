@@ -103,4 +103,24 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
         });
     }
 
+
+    @ReactProp(name="mapType")
+    public void setMapType(ReactMapView reactMapView, final String mapType) {
+        Log.d("MapViewManager", "setMapType(): mapType = " + mapType);
+        reactMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                Log.d("MapViewManager", "setMapType(): googleMap = " + googleMap);
+                int googleMapType = GoogleMap.MAP_TYPE_NONE;
+                switch (mapType) {
+                    case "standard": googleMapType = GoogleMap.MAP_TYPE_NORMAL; break;
+                    case "satellite": googleMapType = GoogleMap.MAP_TYPE_SATELLITE; break;
+                    case "hybrid": googleMapType = GoogleMap.MAP_TYPE_HYBRID; break;
+                }
+                googleMap.setMapType(googleMapType);
+            }
+        });
+
+    }
+
 }

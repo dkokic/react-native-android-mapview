@@ -49,6 +49,7 @@ MapView.propTypes = {
   }),
   onRegionChange: React.PropTypes.func,
   showsUserLocation: React.PropTypes.bool,
+  mapType: React.PropTypes.oneOf(['standard', 'satellite', 'hybrid']),
 }
 
 let AndroidMapView = React.requireNativeComponent('AndroidMapView', MapView, {nativeOnly: {onChange: true}})
