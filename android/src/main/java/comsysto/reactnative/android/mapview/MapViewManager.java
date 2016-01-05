@@ -90,4 +90,17 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
         });
     }
 
+
+    @ReactProp(name="showsUserLocation", defaultBoolean = false)
+    public void setShowsUserLocation(ReactMapView reactMapView, final Boolean showsUserLocation) {
+        Log.d("MapViewManager", "setShowsUserLocation(): showsUserLocation = " + showsUserLocation);
+        reactMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                Log.d("MapViewManager", "setShowsUserLocation(): googleMap = " + googleMap);
+                googleMap.setMyLocationEnabled(showsUserLocation);
+            }
+        });
+    }
+
 }

@@ -28,3 +28,7 @@ https://facebook.github.io/react-native/docs/mapview.html#onregionchange
 
 https://facebook.github.io/react-native/docs/mapview.html#region
 
+##### showsUserLocation
+
+https://facebook.github.io/react-native/docs/mapview.html#showsUserLocation
+

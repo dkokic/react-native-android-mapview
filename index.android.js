@@ -48,6 +48,7 @@ MapView.propTypes = {
     zoom: React.PropTypes.number,
   }),
   onRegionChange: React.PropTypes.func,
+  showsUserLocation: React.PropTypes.bool,
 }
 
 let AndroidMapView = React.requireNativeComponent('AndroidMapView', MapView, {nativeOnly: {onChange: true}})
