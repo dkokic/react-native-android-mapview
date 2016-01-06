@@ -1,6 +1,7 @@
 'use strict'
 
 let React = require('react-native')
+let Image = require('Image')
 
 
 class MapView extends React.Component {
@@ -42,14 +43,28 @@ class MapView extends React.Component {
 
 MapView.propTypes = {
   ...React.View.propTypes,
+
   region: React.PropTypes.shape({
     latitude: React.PropTypes.number.isRequired,
     longitude: React.PropTypes.number.isRequired,
     zoom: React.PropTypes.number,
   }),
+
   onRegionChange: React.PropTypes.func,
   showsUserLocation: React.PropTypes.bool,
   mapType: React.PropTypes.oneOf(['standard', 'satellite', 'hybrid']),
+
+  annotations: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      latitude: React.PropTypes.number.isRequired,
+      longitude: React.PropTypes.number.isRequired,
+      title: React.PropTypes.string,
+      subtitle: React.PropTypes.string,
+      tintColor: React.PropTypes.string,
+      image: Image.propTypes.source,
+      id: React.PropTypes.string,
+    })
+  ),
 }
 
 let AndroidMapView = React.requireNativeComponent('AndroidMapView', MapView, {nativeOnly: {onChange: true}})

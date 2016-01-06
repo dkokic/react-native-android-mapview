@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.ReactProp;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class MapViewManager extends ViewGroupManager<ReactMapView> {
@@ -121,6 +123,24 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
             }
         });
 
+    }
+
+
+    @ReactProp(name="annotations")
+    public void setAnnotations(ReactMapView reactMapView, final ReadableArray annotations) {
+        Log.d("MapViewManager", "setAnnotations(): annotations = " + annotations);
+        reactMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                Log.d("MapViewManager", "setAnnotations(): googleMap = " + googleMap);
+                for (int i = 0; i < annotations.size(); i++) {
+                    final ReadableMap annotation = annotations.getMap(i);
+                    LatLng position = new LatLng(annotation.getDouble("latitude"), annotation.getDouble("longitude"));
+                    googleMap.addMarker(new MarkerOptions().position(position).title(annotation.getString("title")));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                }
+            }
+        });
     }
 
 }
