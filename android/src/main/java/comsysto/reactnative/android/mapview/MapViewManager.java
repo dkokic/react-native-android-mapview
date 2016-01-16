@@ -17,7 +17,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class MapViewManager extends ViewGroupManager<ReactMapView> {
@@ -127,17 +131,37 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
 
 
     @ReactProp(name="annotations")
-    public void setAnnotations(ReactMapView reactMapView, final ReadableArray annotations) {
+    public void setAnnotations(final ReactMapView reactMapView, final ReadableArray annotations) {
         Log.d("MapViewManager", "setAnnotations(): annotations = " + annotations);
         reactMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 Log.d("MapViewManager", "setAnnotations(): googleMap = " + googleMap);
+                Set<String> markerIdSet = new HashSet<>();
                 for (int i = 0; i < annotations.size(); i++) {
                     final ReadableMap annotation = annotations.getMap(i);
-                    LatLng position = new LatLng(annotation.getDouble("latitude"), annotation.getDouble("longitude"));
-                    googleMap.addMarker(new MarkerOptions().position(position).title(annotation.getString("title")));
+                    final LatLng position = new LatLng(annotation.getDouble("latitude"), annotation.getDouble("longitude"));
+                    final String title = annotation.getString("title");
+                    final String id = annotation.getString("id");
+                    markerIdSet.add(id);
+                    if (reactMapView.getMarkerMap().containsKey(id)) {
+                        Marker marker = reactMapView.getMarkerMap().get(id);
+                        marker.setPosition(position);
+                        marker.setTitle(title);
+                    } else {
+                        Marker marker = googleMap.addMarker(new MarkerOptions().position(position).title(title));
+                        Log.d("MapViewManager", "setAnnotations(): adding Marker for id = " + id);
+                        reactMapView.getMarkerMap().put(id, marker);
+                    }
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                }
+                // remove missing markers from the map
+                for (String id : reactMapView.getMarkerMap().keySet()) {
+                    if (!markerIdSet.contains(id)) {
+                        reactMapView.getMarkerMap().get(id).remove();
+                        Log.d("MapViewManager", "setAnnotations(): removing Marker for id = " + id);
+                        reactMapView.getMarkerMap().remove(id);
+                    }
                 }
             }
         });
