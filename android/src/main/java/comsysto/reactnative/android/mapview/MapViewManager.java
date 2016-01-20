@@ -153,7 +153,6 @@ public class MapViewManager extends ViewGroupManager<ReactMapView> {
                         Log.d("MapViewManager", "setAnnotations(): adding Marker for id = " + id);
                         reactMapView.getMarkerMap().put(id, marker);
                     }
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
                 }
                 // remove missing markers from the map
                 for (String id : reactMapView.getMarkerMap().keySet()) {
